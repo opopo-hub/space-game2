@@ -1324,16 +1324,16 @@ function spawnBoss(level) {
     bossActive = true;
     
     const bossTypes = {
-        0: { // 250점 - "감시자"
-            name: '감시자',
-            health: 300,
-            maxHealth: 300,
-            width: 80,
-            height: 80,
-            color: '#00ffff',
-            speed: 2,
-            attackPatterns: ['circularShot', 'tracking'],
-            attackCooldown: 1000,
+        0: { // 250점 - "경비대장"
+            name: '경비대장',
+            health: 200,
+            maxHealth: 200,
+            width: 120,
+            height: 120,
+            color: '#00ff88',
+            speed: 1.5,
+            attackPatterns: ['circularShot'],
+            attackCooldown: 2000,
             movePattern: 'horizontal'
         },
         1: { // 550점 - "파괴자"
@@ -1527,13 +1527,20 @@ function bossAttack(boss) {
     
     switch(pattern) {
         case 'circularShot': // 원형 발사
-            for (let i = 0; i < 12; i++) {
-                const angle = (Math.PI * 2 * i) / 12;
+            // 보스별로 공격 강도 조정
+            let bulletCount = 12;
+            let bulletSpeed = 3;
+            if (boss.name === '경비대장') {
+                bulletCount = 8; // 총알 수 감소
+                bulletSpeed = 2; // 속도 감소
+            }
+            for (let i = 0; i < bulletCount; i++) {
+                const angle = (Math.PI * 2 * i) / bulletCount;
                 enemyBullets.push({
                     x: boss.x + boss.width / 2,
                     y: boss.y + boss.height / 2,
-                    vx: Math.cos(angle) * 3,
-                    vy: Math.sin(angle) * 3,
+                    vx: Math.cos(angle) * bulletSpeed,
+                    vy: Math.sin(angle) * bulletSpeed,
                     width: 8,
                     height: 8
                 });
