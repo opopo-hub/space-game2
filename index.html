@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우주선 게임</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="startScreen">
+            <h1>🚀 우주선 게임</h1>
+            <div class="controls">
+                <h2>조작 방법</h2>
+                <div class="control-item">
+                    <span class="key">W A S D</span>
+                    <span class="desc">우주선 이동</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">K</span>
+                    <span class="desc">미사일 발사</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">L</span>
+                    <span class="desc">부스터 사용 (게이지 소모)</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">`</span>
+                    <span class="desc">개발자 터미널</span>
+                </div>
+            </div>
+            <div class="tips">
+                <h3>💡 게임 팁</h3>
+                <p>⭐ 에너지 아이템을 먹으면 무기가 강화됩니다!</p>
+                <p>🔥 부스터는 30초에 걸쳐 자동 충전됩니다.</p>
+                <p>👾 외계인을 격파하고 최고 점수를 달성하세요!</p>
+            </div>
+            <div class="difficulty">
+                <h3>🎯 난이도 선택</h3>
+                <div class="difficulty-buttons">
+                    <button class="difficulty-btn easy" onclick="startGame('easy')">
+                        <span class="diff-label">하</span>
+                        <span class="diff-desc">적 60%</span>
+                    </button>
+                    <button class="difficulty-btn normal" onclick="startGame('normal')">
+                        <span class="diff-label">중</span>
+                        <span class="diff-desc">적 80%</span>
+                    </button>
+                    <button class="difficulty-btn hard" onclick="startGame('hard')">
+                        <span class="diff-label">상</span>
+                        <span class="diff-desc">적 125%</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="ui">
+            <div id="score">점수: 0</div>
+            <div id="health">체력: 100</div>
+            <div id="coins">💰 코인: 0</div>
+            <button id="shopButton" onclick="toggleShop()">🛒 상점</button>
+        </div>
+        <div id="shop" class="hidden">
+            <div id="shopContent">
+                <h1>🛒 우주선 상점</h1>
+                <div id="shopBalance">
+                    <span>💰 보유 코인: <span id="shopCoins">0</span></span>
+                </div>
+                <div class="ship-grid">
+                    <div class="ship-card owned" data-ship="red">
+                        <div class="ship-preview red-ship"></div>
+                        <h3>레드 파이터</h3>
+                        <p class="ship-desc">기본 우주선</p>
+                        <div class="ship-status owned-badge">보유 중</div>
+                        <button class="select-btn" onclick="selectShip('red')">선택</button>
+                    </div>
+                    <div class="ship-card" data-ship="blue">
+                        <div class="ship-preview blue-ship"></div>
+                        <h3>블루 크루저</h3>
+                        <p class="ship-desc">고급 우주선</p>
+                        <div class="ship-price">💰 20 코인</div>
+                        <button class="buy-btn" onclick="buyShip('blue', 20)">구매</button>
+                    </div>
+                    <div class="ship-card" data-ship="black">
+                        <div class="ship-preview black-ship"></div>
+                        <h3>다크 디스트로이어</h3>
+                        <p class="ship-desc">최고급 함선</p>
+                        <div class="ship-price">💰 50 코인</div>
+                        <button class="buy-btn" onclick="buyShip('black', 50)">구매</button>
+                    </div>
+                </div>
+                <button id="closeShop" onclick="toggleShop()">닫기</button>
+            </div>
+        </div>
+        <div id="nameInput" class="hidden">
+            <h1>🏆 신기록 달성!</h1>
+            <p>최종 점수: <span id="nameInputScore">0</span></p>
+            <p class="name-prompt">이름을 입력하세요</p>
+            <input type="text" id="playerNameInput" maxlength="10" placeholder="이름 (최대 10자)" />
+            <button onclick="submitName()">확인</button>
+        </div>
+        <div id="gameOver" class="hidden">
+            <h1>게임 오버</h1>
+            <p>최종 점수: <span id="finalScore">0</span></p>
+            <button onclick="restartGame()">다시 시작</button>
+        </div>
+        <div id="leaderboard" class="hidden">
+            <h2>🏆 리더보드</h2>
+            <div id="leaderboardList"></div>
+        </div>
+        <div id="terminal" class="hidden">
+            <div id="terminalHeader">
+                <span>🚀 개발자 콘솔</span>
+                <button id="closeTerminal" onclick="toggleTerminal()">✕</button>
+            </div>
+            <div id="terminalOutput"></div>
+            <div id="terminalInputContainer">
+                <span class="terminalPrompt">&gt;</span>
+                <input type="text" id="terminalInput" placeholder="명령어를 입력하세요... (help 입력)" autocomplete="off">
+            </div>
+        </div>
+        <div id="terminalToggle" onclick="toggleTerminal()">
+            <span>📟</span>
+        </div>
+    </div>
+    <audio id="bgMusic" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+    <script src="game.js"></script>
+</body>
+</html>
+
